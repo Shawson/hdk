@@ -68,7 +68,8 @@ static esp_err_t _httpCallback(esp_http_client_event_t* event) {
         // And reallocate
         void* new = realloc(state->buf, state->size);
         if (new == NULL) {
-          ESP_LOGE(TAG, "Resizing response buffer failed");
+          ESP_LOGE(TAG, "Resizing response buffer failed (%d bytes)", state->size);
+          ESP_LOGI(TAG, "Available heap : %d bytes", esp_get_free_heap_size());
           free(state->buf);
           err = ESP_ERR_NO_MEM;
           break;

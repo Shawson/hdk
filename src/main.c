@@ -51,6 +51,7 @@ void app_main(void) {
       ESP_LOGE(TAG, "Failed to get webp");
     } else {
       ESP_LOGI(TAG, "Updated webp (%d bytes)", len);
+      ESP_LOGI(TAG, "Available heap : %d bytes | psram : %d bytes ", esp_get_free_heap_size(), heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
       gfx_update(webp, len);
       free(webp);
     }
