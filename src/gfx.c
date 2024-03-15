@@ -160,8 +160,17 @@ static int draw_webp(uint8_t *buf, size_t len) {
   int delay = 0;
   TickType_t drawStartTick = xTaskGetTickCount();
 
+  int counter = _state->counter;
+
   // Draw each frame, and sleep for the delay
   for (int j = 0; j < animation.frame_count; j++) {
+
+    if (counter != _state->counter) {
+      // they've changed something- bomb out and start the process of loading in the next anim
+      delay = 0;
+      break;
+    }
+
     uint8_t *pix;
     int timestamp;
     WebPAnimDecoderGetNext(decoder, &pix, &timestamp);
